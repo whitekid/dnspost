@@ -47,6 +47,7 @@ def parse_config():
         if not os.path.exists(name): continue
 
         config = ConfigParser.ConfigParser({
+            'listen_port': '53',
             'port': '53',
             'enabled': 'true',
         })
@@ -54,6 +55,7 @@ def parse_config():
         config.read(name)
         for section in config.sections():
             if section == 'default':
+                CONFIG['default.listen_port'] = config.getint(section, 'listen_port')
                 CONFIG['default.server'] = config.get(section, 'server')
                 CONFIG['default.port'] = config.getint(section, 'port')
             else:
@@ -80,8 +82,8 @@ def main():
     protocol = dns.DNSDatagramProtocol(factory)
     factory.noisy = protocol.noisy = verbosity
 
-    reactor.listenUDP(5300, protocol)
-    reactor.listenTCP(5300, factory)
+    reactor.listenUDP(CONFIG['default.listen_port'], protocol)
+    reactor.listenTCP(CONFIG['default.listen_port'], factory)
     reactor.run()
 
 main()
