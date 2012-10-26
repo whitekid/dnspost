@@ -8,7 +8,7 @@ Installation
 $ apt-get install python-twisted-names
 $ git clone https://github.com/whitekid/dnspost.git
 $ cd dnspost
-edit dnspost.conf
+# edit dnspost.conf
 $ ./dnspost.py
 ```
 
