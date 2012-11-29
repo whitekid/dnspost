@@ -1,3 +1,13 @@
+> **dnsmasq has better functionality. please use dnsmasq**
+> 
+> ```sh
+> server=/github.com/168.126.63.1
+> server=/google.com/8.8.8.8
+> address=/my.local/192.168.0.1
+> ```
+> 
+
+----
 DNS Proxy similar to OSX resolver functionality.
 
 You can specify dns server by requested host name
