@@ -1,11 +1,10 @@
 #!/usr/bin/env python
+import configparser
 import os
-import ConfigParser
 
 from twisted.internet import reactor
-from twisted.names import dns
-from twisted.names import client, server
-from twisted.names import resolve
+from twisted.names import client, dns, resolve, server
+
 
 class DNSServerFactory(server.DNSServerFactory):
     def __init__(self, default_clients, hook_resolvers, verbosity):
@@ -18,7 +17,7 @@ class DNSServerFactory(server.DNSServerFactory):
 
         # make resolvers
         self.hook_resolvers = {}
-        for domain, host in name_hook.iteritems():
+        for domain, host in name_hook.items():
             self.hook_resolvers[domain] = resolve.ResolverChain([client.Resolver(servers=[(host, 53)])])
 
         self.hook_resolvers = hook_resolvers
@@ -47,7 +46,7 @@ def parse_config():
     for name in config_files:
         if not os.path.exists(name): continue
 
-        config = ConfigParser.ConfigParser({
+        config = configparser.ConfigParser({
             'listen_port': '53',
             'port': '53',
             'enabled': 'true',
@@ -75,7 +74,7 @@ def main():
     default_resolver = client.Resolver(servers=[(CONFIG['default.server'], CONFIG['default.port'])])
 
     hook_resolvers = {}
-    for domain, host in CONFIG['hooks'].iteritems():
+    for domain, host in CONFIG['hooks'].items():
         hook_resolvers[domain] = \
             resolve.ResolverChain([client.Resolver(servers=[(host['server'], host['port'])])])
 
